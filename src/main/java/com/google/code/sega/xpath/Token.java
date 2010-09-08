@@ -3,7 +3,9 @@ package com.google.code.sega.xpath;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Token {
+import com.google.code.sega.grammar.Symbol;
+
+public class Token implements Symbol {
 	private String lexeme;
 	private Pattern pattern;	
 	private TokenType type;
@@ -26,5 +28,9 @@ public class Token {
 		return matcher.matches();
 	}
 	
+	@Override
+	public String toString() {
+		return pattern.pattern();
+	}
 	
 }
