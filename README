@@ -1,1 +1,1 @@
-sega-java aims to be an easy to use XPath directed SAX parser similar to Nokogiri (http://nokogiri.org) and Hpricot (http://hpricot.org), but instead to be written in beautifuly Ruby, it is coded using Java with the best intentions. :-)
+sega-java aims to be an easy to use XPath directed SAX parser similar to Nokogiri (http://nokogiri.org) and Hpricot (http://hpricot.org), but instead of being written in beautifuly Ruby, it is coded using Java with the best intentions. :-)
