@@ -2,7 +2,7 @@ package com.google.code.sega.grammar;
 
 import java.util.Set;
 
-import com.google.code.sega.xpath.Token;
+import com.google.code.sega.lexer.Token;
 
 /**
  * 

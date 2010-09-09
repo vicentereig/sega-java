@@ -3,7 +3,7 @@ package com.google.code.sega.grammar;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.code.sega.xpath.Token;
+import com.google.code.sega.lexer.Token;
 
 public class ProductionBuilder {
 	private List<Symbol> rightSymbols;
