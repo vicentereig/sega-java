@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.code.sega.lexer.Token;
 import com.google.code.sega.lexer.TokenType;
+import com.google.code.sega.xpath.XPathLexer;
 
 public class XPathLexerTest {
 	
