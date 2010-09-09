@@ -1,7 +1,0 @@
-package com.google.code.sega.lexer;
-
-public enum TokenType {
-	TKN_NUMBER, TKN_OPERATOR, TKN_AT, TKN_EQUALS, 
-	TKN_ID, TKN_QUOTE, TKN_OPEN_BRACKET, TKN_CLOSE_BRACKET, 
-	TKN_GTE, TKN_LTE, TKN_GT, TKN_LT, TKN_REAL
-}
