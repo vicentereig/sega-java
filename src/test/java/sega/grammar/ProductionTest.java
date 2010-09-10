@@ -117,5 +117,38 @@ public class ProductionTest {
 			Assert.fail("Syntax error not expected here");
 		}
 	}
+	
+	/**
+	 * Simple-stupid grammar to test initial top-down parsing!
+	 * A -> aB
+	 * B -> bA | cB | | epsilon 
+	 */
+	@Test public void asAndBsandCsFails() {
+		Production a = new Production("A");
+		Production b = new Production("B");
+		Token tknA = new Token(TokenType.TKN_A, "a");
+		Token tknB = new Token(TokenType.TKN_B, "b");
+		Token tknC = new Token(TokenType.TKN_C, "c");
+		
+		a.generates(tknA).and(b);
+		
+		b.generates(tknB).and(a);
+		b.generates(tknC).and(b);
+		b.generates(Production.EPSILON);
+		
+		Grammar g = new Grammar(a);
+		g.add(b); //not necessary at all since production rule A is the root of the object graph!
+		
+		List<Token> tokens = new LinkedList<Token>();
+		tokens.add(tknC);
+		tokens.add(tknB);
+		tokens.add(tknA);
+		try {
+			g.eval(tokens);
+		} catch (SyntaxError e) {			
+			e.printStackTrace();
+			Assert.assertEquals(e.getExpected(), tknC);
+		}
+	}
 
 }
