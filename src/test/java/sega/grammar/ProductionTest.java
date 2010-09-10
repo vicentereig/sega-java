@@ -1,13 +1,16 @@
 package sega.grammar;
 
 
+import java.util.LinkedList;
+import java.util.List;
+
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import sega.grammar.Grammar;
-import sega.grammar.Production;
 import sega.lexer.Token;
 import sega.lexer.TokenType;
 
@@ -18,7 +21,10 @@ public class ProductionTest {
 	private Grammar g;
 	private Production e,ep,t,tp,f;
 	private Token plus,minus, star, div, parOp, parCl, num, id;
+	
 	/**
+	 * A grammar to generate arithmetic expressions.
+	 * 
 	 * E -> T Ep
 	 * Ep -> + TE | - TEp | epsilon
 	 * T -> FTp
@@ -26,9 +32,7 @@ public class ProductionTest {
 	 * F -> ( E ) | num | id 
 	 * 
 	 */
-	
-
-	@Before
+	//@Before
 	public void setUp() throws Exception {
 		e = new Production("E");
 		ep = new Production("Ep");
@@ -76,9 +80,42 @@ public class ProductionTest {
 		f.generates(id);
 	}	
 	
-	@Test
+	//@Test
 	public void arithmethicGrammar() {
 		logger.debug("{}", g);
+	}
+	
+	/**
+	 * Simple-stupid grammar to test initial top-down parsing!
+	 * A -> aB
+	 * B -> bA | cB | | epsilon 
+	 */
+	@Test public void asAndBs() {
+		Production a = new Production("A");
+		Production b = new Production("B");
+		Token tknA = new Token(TokenType.TKN_A, "a");
+		Token tknB = new Token(TokenType.TKN_B, "b");
+		Token tknC = new Token(TokenType.TKN_C, "c");
+		
+		a.generates(tknA).and(b);
+		
+		b.generates(tknB).and(a);
+		b.generates(tknC).and(b);
+		b.generates(Production.EPSILON);
+		
+		Grammar g = new Grammar(a);
+		g.add(b); //not necessary at all since production rule A is the root of the object graph!
+		
+		List<Token> tokens = new LinkedList<Token>();
+		tokens.add(tknA);
+		tokens.add(tknB);
+		tokens.add(tknA);
+		try {
+			g.eval(tokens);
+		} catch (SyntaxError e) {			
+			e.printStackTrace();
+			Assert.fail("Syntax error not expected here");
+		}
 	}
 
 }

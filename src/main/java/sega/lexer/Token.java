@@ -39,6 +39,10 @@ public class Token implements Symbol {
 		
 		Token t = (Token) o;
 		
-		return t.lexeme.equals(lexeme) && t.type == type; 
+		return /*t.lexeme.equals(lexeme) &&*/ t.type == type; 
+	}
+
+	public TokenType getType() {
+		return type;
 	}
 }
