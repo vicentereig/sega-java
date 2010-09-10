@@ -61,14 +61,6 @@ public class Production implements Symbol {
 	
 	@Override
 	public String toString() {
-//		StringBuffer buffer = new StringBuffer();
-//		for(ProductionBuilder b:builders) {
-//			buffer.append(name);
-//			buffer.append("->");
-//			buffer.append(b.toString());
-//			buffer.append(" \n ");
-//		}		
-//		return buffer.toString();
 		return name;
 	}
 
@@ -110,7 +102,7 @@ public class Production implements Symbol {
 			}
 		}
 	}
-
+	
 	public void setHasEpsilon(boolean b) {
 		hasEpsilon = b;
 	}
@@ -119,4 +111,5 @@ public class Production implements Symbol {
 	public boolean hasEpsilon() {
 		return hasEpsilon;
 	}
+
 }

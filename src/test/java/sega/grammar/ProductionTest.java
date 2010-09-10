@@ -146,7 +146,7 @@ public class ProductionTest {
 		try {
 			g.eval(tokens);
 		} catch (SyntaxError e) {			
-			e.printStackTrace();
+//			e.printStackTrace();
 			Assert.assertEquals(e.getExpected(), tknC);
 		}
 	}
