@@ -1,12 +1,12 @@
 package sega.grammar;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sega.lexer.Token;
+import sega.lexer.TokenType;
 
 
 public class ProductionBuilder {
@@ -15,9 +15,9 @@ public class ProductionBuilder {
 	private final static Logger logger = LoggerFactory.getLogger(ProductionBuilder.class);
 	
 	
-	public ProductionBuilder(Production p) {
-		rightSymbols = new LinkedList<Symbol>();		
-		production = p;
+	public ProductionBuilder(Production p, List<Symbol> rightSide) {
+		rightSymbols = rightSide;		
+		this.production = p;
 	}
 	
 	public ProductionBuilder add(Symbol sym) {
@@ -34,24 +34,8 @@ public class ProductionBuilder {
 		return this;
 	}
 	
-	public List<Symbol> getRightSymbols() {
-		return rightSymbols;
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder b = new StringBuilder();
-		for(Symbol sym: rightSymbols) {
-			if ( sym instanceof Token) {
-				b.append(sym.toString());
-			} else {
-				b.append(((Production)sym).getName());
-			}
-			
-			b.append(" ");
-		}
-		
-		return b.toString();
-	}
-
+	public ProductionBuilder and(TokenType type) {
+		and(new Token(type, ""));
+		return this;
+	}	
 }

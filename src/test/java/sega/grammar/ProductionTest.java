@@ -121,7 +121,7 @@ public class ProductionTest {
 	/**
 	 * Simple-stupid grammar to test initial top-down parsing!
 	 * A -> aB
-	 * B -> bA | cB | | epsilon 
+	 * B -> bA | cB | epsilon 
 	 */
 	@Test public void asAndBsandCsFails() {
 		Production a = new Production("A");
@@ -143,10 +143,9 @@ public class ProductionTest {
 		tokens.add(tknC);
 		tokens.add(tknB);
 		tokens.add(tknA);
-		try {
+		try {			
 			g.eval(tokens);
-		} catch (SyntaxError e) {			
-//			e.printStackTrace();
+		} catch (SyntaxError e) {
 			Assert.assertEquals(e.getExpected(), tknC);
 		}
 	}

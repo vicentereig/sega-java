@@ -34,7 +34,7 @@ public class Grammar {
 		start = s;
 	}
 	
-	public void add(Production r) {
+	public void add(Production r) {				
 		rules.add(r);
 	}
 	
@@ -44,6 +44,7 @@ public class Grammar {
 	 * @throws SyntaxError 
 	 */
 	public void eval(List<Token> tokens) throws SyntaxError {
+		calculateFirstAndNext();
 		Stack<Token> stackOfTokens = new Stack<Token>();
 		Collections.reverse(tokens);
 		stackOfTokens.addAll(tokens);
@@ -51,6 +52,17 @@ public class Grammar {
 		start.eval(stackOfTokens);
 	}
 	
+	private void calculateFirstAndNext() {
+		for(Production rule : rules) {
+			for(ProductionBuilder builder : rule.getBuilders() ) {
+				//aham...
+				/**
+				 * S -> 0 | 1 | S
+				 */
+			}
+		}
+	}
+
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();

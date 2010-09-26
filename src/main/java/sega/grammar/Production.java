@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sega.lexer.Token;
+import sega.lexer.TokenType;
 
 
 
@@ -27,7 +28,8 @@ public class Production implements Symbol {
 	private List<ProductionBuilder> builders;
 	private Set<Token> firstSet;
 	private Set<Token> nextSet;
-
+	private List<List<Symbol>> rightSides;
+	
 	public static final Production EPSILON = new Production("epsilon");
 	
 	private boolean hasEpsilon;
@@ -40,20 +42,33 @@ public class Production implements Symbol {
 		builders = new LinkedList<ProductionBuilder>();
 		firstSet = new HashSet<Token>();
 		nextSet = new HashSet<Token>();
+		rightSides = new LinkedList<List<Symbol>>();
+	}
+
+
+	public void calculateFirstSet() {
+		for(List<Symbol> rightSide:rightSides){
+			for(Symbol symbol:rightSide) {
+				if ( symbol instanceof Token ) {
+					firstSet.add((Token)symbol);
+					break;
+				} else {
+					((Production)symbol).calculateFirstSet();
+					firstSet.addAll(((Production)symbol).firstSet);
+				}
+			}
+		}
+	}
+	
+	public ProductionBuilder generates(TokenType tkn) {
+		return generates(new Token(tkn, ""));
 	}
 	
 	public ProductionBuilder generates(Symbol sym) {
-		ProductionBuilder builder = new ProductionBuilder(this);
+		List<Symbol> rightSide = new LinkedList<Symbol>();
+		ProductionBuilder builder = new ProductionBuilder(this, rightSide);
+		rightSides.add(rightSide);
 		builder.add(sym);
-		//update first symbols set
-		if ( sym instanceof Token ) {
-			firstSet.add((Token) sym);
-		} else {
-			//not pretty sure, at this time "sym" production rule
-			//may not have been defined but declared
-			firstSet.addAll(((Production)sym).firstSet);
-		}
-		//update next symbols set
 		builders.add(builder);
 		return builder;
 	}
@@ -79,9 +94,9 @@ public class Production implements Symbol {
 	public void eval(Stack<Token> tokens) throws SyntaxError {		
 		Token t = tokens.pop();
 		logger.debug("[{}] Current symbol: {}", name, t);		
-		for(ProductionBuilder builder:builders) {			
+		for(List<Symbol> rightSymbols:rightSides) {			
 //			logger.debug("Builder '{}'.", builder.getRightSymbols());
-			for(Symbol symbol:builder.getRightSymbols()) {
+			for(Symbol symbol:rightSymbols) {
 				if( symbol instanceof Production ) {
 					Production p = (Production) symbol;
 					//logger.debug("["+name+"] Production {}: {}",p.name, p.firstSet);
@@ -110,6 +125,16 @@ public class Production implements Symbol {
 
 	public boolean hasEpsilon() {
 		return hasEpsilon;
+	}
+
+
+	public List<ProductionBuilder> getBuilders() {
+		return builders;
+	}
+
+
+	public List<List<Symbol>> getRightSides() {
+		return rightSides;
 	}
 
 }
